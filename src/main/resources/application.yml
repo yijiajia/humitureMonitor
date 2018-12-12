@@ -1,0 +1,52 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /
+
+
+project:
+   version: @project.version@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/humiture_monitor?characterEncoding=utf8&autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: true
+
+#mybatis:
+#  mapper-locations: classpath*:mapper/*.xml
+
+logging:
+  level: debug
+  file: logs/humiture.log
+
+
+tsdb:
+  acessKey: 327bbb67017641678db59e0ab6b0f101
+  secret: 2eff7a1be32a4cec8e431176e217d9c1
+  adminEndpoint: tsdb.gz.baidubce.com
+  endpoint: ministation.tsdb-xj16fcdakkwb.tsdb.iot.gz.baidubce.com
+
+wechat:
+    ma:
+      appid: wx77e18f632393339a
+      secret: 65728109daeba173201fc5191c5a3496
+      token: helloworld
+      aesKey: ceUXsYQFBXPQkpRzR3cSXhk4cPW9iKGevaSbmzFVxH4
+      msgDataFormat: JSON
+
+humitor:
+    jwt:
+      # 加密秘钥
+      secret: f4e2e52034348f86b67cde581c0f9eb5
+      # token有效时长，7天，单位秒
+      expire: 604800
+      header: token
+
+

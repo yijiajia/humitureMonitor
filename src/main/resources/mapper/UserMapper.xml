@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.monitor.humiture.dao.UserMapper" >
+
+    <resultMap id="BaseResultMap" type="com.monitor.humiture.entity.User" >
+        <id column="open_id" property="openId" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="VARCHAR" />
+        <result column="city" property="city" jdbcType="VARCHAR" />
+        <result column="province" property="province" jdbcType="VARCHAR" />
+        <result column="country" property="country" jdbcType="VARCHAR" />
+        <result column="avatar_url" property="avatarUrl" jdbcType="VARCHAR" />
+        <result column="phone" property="phone" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.monitor.humiture.entity.User">
+        insert into user
+        values (#{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR},
+                #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR},
+                #{avatarUrl,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from user
+        where open_id = #{openId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--<update id="updateByPrimaryKey" parameterType="com.monitor.humiture.entity.User">-->
+        <!--update user set -->
+    <!--</update>-->
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from user where open_id = #{openId,jdbcType=VARCHAR}
+    </select>
+
+
+
+</mapper>
