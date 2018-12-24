@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 
@@ -34,5 +36,11 @@ public class UserDeviceServiceImplTest {
 
         UserDevice userDevice =  userDeviceService.getDevice("x1");
         Assert.assertEquals("设备",userDevice.getDeviceName());
+    }
+
+    @Test
+    public void testArrays(){
+        int[] nums = {1,5,8,1,6,2};
+        System.out.println(Arrays.toString(nums));
     }
 }

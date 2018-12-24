@@ -1,6 +1,5 @@
 package com.monitor.humiture.service;
 
-import com.baidubce.services.tsdb.model.Group;
 import com.baidubce.services.tsdb.model.Result;
 
 import java.util.List;
@@ -28,7 +27,6 @@ public interface TsdbService {
      * @return
      */
     List<Result> queryData(String metric,String tagValue, String sampLing);
-
 
     /**
      * 查询指定metries中的标签

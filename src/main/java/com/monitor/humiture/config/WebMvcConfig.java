@@ -20,7 +20,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/tsdb/**");
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/tsdb/**").addPathPatterns("/wx/user/**");
     }
 
     @Override

@@ -32,6 +32,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserDeviceService userDeviceService;
+
+    @Autowired
     private WxMaService wxMaService;
 
     @Autowired
@@ -80,6 +83,25 @@ public class UserController {
         return ResultVO.ResultBuilder.getError(null);
     }
 
+
+    /**
+     * 修改设备名
+     * @param deviceId
+     * @return
+     */
+    @Login
+    @RequestMapping("/device/updateName")
+    public ResultVO<String> updateDeViceName(@LoginUser User user, String name,String deviceId){
+
+        log.info("\n用户:{}将修改id为{}的设备名为{}",user.getNickName(),deviceId,name);
+        try{
+            userDeviceService.updateDeviceName(name,deviceId);
+            return ResultVO.ResultBuilder.getOK();
+        }catch (Exception e){
+            return ResultVO.ResultBuilder.getError("更新名字失败");
+        }
+
+    }
 
 
 

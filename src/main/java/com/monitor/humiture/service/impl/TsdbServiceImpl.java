@@ -5,6 +5,7 @@ import com.baidubce.services.tsdb.TsdbConstants;
 import com.baidubce.services.tsdb.model.*;
 import com.monitor.humiture.constant.TsdbConstant;
 import com.monitor.humiture.service.TsdbService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@Slf4j
 public class TsdbServiceImpl implements TsdbService {
 
     @Autowired
@@ -112,34 +114,51 @@ public class TsdbServiceImpl implements TsdbService {
 
     @Override
     public List<Result> getDataForDevice(String metric, String deviceId) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            Date dateEnd = sdf.parse("2018-08-10 18:00:00");
-            long end = dateEnd.getTime();
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(dateEnd);
-            calendar.add(Calendar.HOUR_OF_DAY, -24);
-            Date dateStart = calendar.getTime();
-            long start = dateStart.getTime();
+        try {
+
+            Filters filters = null;
+            if(TsdbConstant.TAG_VALUE2.equals(deviceId) || TsdbConstant.TAG_VALUE1.equals(deviceId)){
+                //获取demo数据示例
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date dateEnd = sdf.parse("2018-08-10 18:00:00");
+                long start = dateEnd.getTime();
+
+                Date dateStart = sdf.parse("2018-08-10 18:10:00");
+                long end = dateStart.getTime();
+
+                filters = new Filters()
+                            .withAbsoluteStart(start)  //设置绝对的开始时间
+                            .withAbsoluteEnd(end)   //设置绝对的结束时间
+                            .addTag(TsdbConstant.TAG_NAME, deviceId);
+            }else {
+                //  用户当前时间内的数据（单个）
+                String start = TsdbConstant.SAMPLING_10MINUTE;
+                String end = TsdbConstant.SAMPLING_SECOND;
+
+                filters = new Filters()
+                        .withRelativeStart(start)    //相对时间
+                        .withRelativeEnd(end)
+                        .addTag(TsdbConstant.TAG_NAME, deviceId);
+            }
 
             // 构造查询对象
             List<Query> queries = Arrays.asList(new Query()  // 创建Query对象
                     .withMetric(metric)          // 设置metric
                     .withField(TsdbConstant.Filed)           // 设置查询的域名，不设置表示查询默认域
-                    .withFilters(new Filters()     // 创建Filters对象
-                            .withAbsoluteStart(start)  //设置绝对的开始时间
-                            .withAbsoluteEnd(end) //设置绝对的结束时间
-                            .addTag(TsdbConstant.TAG_NAME, deviceId))
-                    .withLimit(100)   // 设置返回数据点数目限制
-                    .addAggregator(new Aggregator()
-                    ));  // 创建Aggregator对象
+                    .withFilters(filters)
+                    .withLimit(1)   // 设置返回数据点数目限制
+                    .addAggregator(new Aggregator()   // 创建Aggregator对象
+                            .withName(TsdbConstants.AGGREGATOR_NAME_AVG)  // 设置聚合函数为Avg
+                            .withSampling(TsdbConstant.SAMPLING_10MINUTE)));
 
             // 查询数据
             QueryDatapointsResponse response = tsdbClient.queryDatapoints(queries);
 
-        }catch (Exception e){
+            return response.getResults();
 
+        }catch (Exception e){
+            log.debug("获取设备数据错误:{}",e);
         }
 
         return null;

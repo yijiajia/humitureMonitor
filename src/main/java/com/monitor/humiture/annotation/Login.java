@@ -3,7 +3,7 @@ package com.monitor.humiture.annotation;
 import java.lang.annotation.*;
 
 /**
- * app登录效验
+ * 小程序登录效验
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
