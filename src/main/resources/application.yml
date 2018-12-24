@@ -28,17 +28,17 @@ logging:
 
 
 tsdb:
-  acessKey: 327bbb67017641678db59e0ab6b0f101
-  secret: 2eff7a1be32a4cec8e431176e217d9c1
-  adminEndpoint: tsdb.gz.baidubce.com
-  endpoint: ministation.tsdb-xj16fcdakkwb.tsdb.iot.gz.baidubce.com
+  acessKey: *
+  secret: *
+  adminEndpoint: *
+  endpoint: *
 
 wechat:
     ma:
-      appid: wx77e18f632393339a
-      secret: 65728109daeba173201fc5191c5a3496
-      token: helloworld
-      aesKey: ceUXsYQFBXPQkpRzR3cSXhk4cPW9iKGevaSbmzFVxH4
+      appid: *
+      secret: *
+      token: *
+      aesKey: *
       msgDataFormat: JSON
 
 humitor:
